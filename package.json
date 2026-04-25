@@ -1,0 +1,43 @@
+{
+  "name": "datadaphne",
+  "version": "0.1.0-alpha.0",
+  "description": "Local database manager powered by Docker for Windows.",
+  "private": false,
+  "author": "Cristal Code Editor <dev@cristalce.com>",
+  "license": "MIT",
+  "main": "./out/main/index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "tsc --noEmit && electron-vite build",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/inter": "latest",
+    "clsx": "latest",
+    "country-flag-icons": "latest",
+    "dockerode": "latest",
+    "i18next": "latest",
+    "lucide-react": "latest",
+    "motion": "latest",
+    "radix-ui": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-i18next": "latest",
+    "zod": "latest",
+    "zustand": "latest"
+  },
+  "devDependencies": {
+    "@swc/core": "latest",
+    "@types/dockerode": "latest",
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@vitejs/plugin-react": "5.1.4",
+    "electron": "latest",
+    "electron-vite": "5.0.0",
+    "typescript": "latest",
+    "vite": "7.3.2"
+  }
+}
