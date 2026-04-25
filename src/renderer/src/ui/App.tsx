@@ -11,6 +11,7 @@ import { applyTheme, usePreferencesStore } from "../stores/preferences-store";
 import { EngineCard } from "./EngineCard";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { WipeTransition } from "./WipeTransition";
 
 const INITIAL_DOCKER_STATUS: DockerStatus = {
   available: false,
@@ -87,7 +88,8 @@ export function App(): ReactElement {
   const totalPorts = engines.reduce((sum, engine) => sum + (engine.defaultPort > 0 ? 1 : 0), 0);
 
   return (
-    <div className="app-shell">
+    <>
+      <div className="app-shell">
       <aside className="sidebar">
         <div className="brand-mark">
           <div className="brand-symbol" aria-hidden="true">
@@ -219,7 +221,9 @@ export function App(): ReactElement {
           </section>
         </main>
       </section>
-    </div>
+      </div>
+      <WipeTransition />
+    </>
   );
 }
 
