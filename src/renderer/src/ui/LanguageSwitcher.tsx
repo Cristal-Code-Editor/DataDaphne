@@ -1,17 +1,30 @@
-import { ES, US } from "country-flag-icons/react/3x2";
+import { MX, US } from "country-flag-icons/react/3x2";
 import { Languages } from "lucide-react";
 import { motion } from "motion/react";
-import type { ReactElement } from "react";
+import type { MouseEvent, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { LanguageCode } from "../i18n";
 import { changeLanguage, SUPPORTED_LANGUAGES } from "../i18n";
 import { TooltipIconButton } from "./TooltipIconButton";
 
-const FLAG_BY_LANGUAGE: Record<LanguageCode, typeof ES> = {
-  es: ES,
+const FLAG_BY_LANGUAGE: Record<LanguageCode, typeof MX> = {
+  es: MX,
   en: US
 };
+
+/**
+ * Registra el centro del botón pulsado como origen de la View Transition.
+ * @param event - Evento del clic sobre el botón de bandera.
+ * @returns No retorna valor; escribe las variables CSS en el elemento raíz.
+ */
+function setTransitionOrigin(event: MouseEvent<HTMLButtonElement>): void {
+  const rect = event.currentTarget.getBoundingClientRect();
+  const x = Math.round(rect.left + rect.width / 2);
+  const y = Math.round(rect.top + rect.height / 2);
+  document.documentElement.style.setProperty("--vt-x", `${x}px`);
+  document.documentElement.style.setProperty("--vt-y", `${y}px`);
+}
 
 /**
  * Muestra idiomas disponibles con banderas SVG y cambia la traducción activa.
@@ -36,7 +49,10 @@ export function LanguageSwitcher(): ReactElement {
             active={isActive}
             className="segment-button flag-button"
             label={label}
-            onClick={() => void changeLanguage(language.code)}
+            onClick={(event) => {
+              setTransitionOrigin(event);
+              void changeLanguage(language.code);
+            }}
           >
             {isActive ? (
               <motion.span
