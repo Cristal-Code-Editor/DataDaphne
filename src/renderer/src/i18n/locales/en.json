@@ -27,10 +27,12 @@
     "instances": "Instances",
     "ports": "Ports",
     "profiles": "Profiles",
+    "running": "Running",
     "enginesHint": "MVP supported",
-    "instancesHint": "Ready to create",
+    "instancesHint": "Created total",
     "portsHint": "Configurable",
-    "profilesHint": "Coming soon"
+    "profilesHint": "Coming soon",
+    "runningHint": "Active containers"
   },
   "section": {
     "enginesDescription": "{{count}} engines · configurable port"
@@ -62,5 +64,18 @@
     "redis": "Redis",
     "mariadb": "MariaDB",
     "mysql": "MySQL"
+  },
+  "instances": {
+    "empty": "No instances created yet. Use the Engines tab to create one.",
+    "count": "{{count}} instances total",
+    "createError": "Failed to create the instance.",
+    "creating": "Creating...",
+    "running": "Running",
+    "stopped": "Stopped",
+    "stop": "Stop",
+    "remove": "Remove",
+    "created": "Created",
+    "copyPort": "Copy port",
+    "copyId": "Copy container ID"
   }
 }
