@@ -27,10 +27,12 @@
     "instances": "Instancias",
     "ports": "Puertos",
     "profiles": "Perfiles",
+    "running": "En ejecución",
     "enginesHint": "MVP soportado",
-    "instancesHint": "Listo para crear",
+    "instancesHint": "Creadas en total",
     "portsHint": "Configurables",
-    "profilesHint": "Próximamente"
+    "profilesHint": "Próximamente",
+    "runningHint": "Contenedores activos"
   },
   "section": {
     "enginesDescription": "{{count}} motores · puerto editable"
@@ -62,5 +64,18 @@
     "redis": "Redis",
     "mariadb": "MariaDB",
     "mysql": "MySQL"
+  },
+  "instances": {
+    "empty": "Aún no hay instancias creadas. Usa la pestaña Motores para crear una.",
+    "count": "{{count}} instancias en total",
+    "createError": "Error al crear la instancia.",
+    "creating": "Creando...",
+    "running": "En ejecución",
+    "stopped": "Detenida",
+    "stop": "Detener",
+    "remove": "Eliminar",
+    "created": "Creada",
+    "copyPort": "Copiar puerto",
+    "copyId": "Copiar ID del contenedor"
   }
 }
