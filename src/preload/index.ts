@@ -17,6 +17,7 @@ export interface DataDaphneApi {
   startLogs: (containerId: string) => Promise<ContainerOperationResult>;
   stopLogs: (containerId: string) => Promise<ContainerOperationResult>;
   onLogsChunk: (callback: (data: { containerId: string; line: string }) => void) => () => void;
+  checkPort: (port: number) => Promise<boolean>;
 }
 
 const api: DataDaphneApi = {
@@ -90,7 +91,14 @@ const api: DataDaphneApi = {
       callback(data);
     ipcRenderer.on(IPC_CHANNELS.containerLogsChunk, handler);
     return () => ipcRenderer.removeListener(IPC_CHANNELS.containerLogsChunk, handler);
-  }
+  },
+
+  /**
+   * Comprueba si un puerto TCP en localhost está disponible antes de crear un contenedor.
+   * @param port - Puerto a verificar.
+   * @returns `true` si el puerto está libre, `false` si está en uso.
+   */
+  checkPort: (port) => ipcRenderer.invoke(IPC_CHANNELS.portCheck, port)
 };
 
 contextBridge.exposeInMainWorld("datadaphne", api);
