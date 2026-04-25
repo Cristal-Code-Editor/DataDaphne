@@ -92,5 +92,10 @@
   "confirm": {
     "removeTitle": "Remove instance",
     "removeMessage": "This action is irreversible. The container and its local data will be permanently deleted."
+  },
+  "logs": {
+    "open": "Logs",
+    "title": "Logs — {{name}}",
+    "empty": "Waiting for container logs..."
   }
 }

@@ -92,5 +92,10 @@
   "confirm": {
     "removeTitle": "Eliminar instancia",
     "removeMessage": "Esta acción es irreversible. El contenedor y sus datos locales serán eliminados permanentemente."
+  },
+  "logs": {
+    "open": "Logs",
+    "title": "Logs — {{name}}",
+    "empty": "Esperando logs del contenedor..."
   }
 }
