@@ -78,14 +78,16 @@
     "remove": "Eliminar",
     "created": "Creada",
     "copyPort": "Copiar puerto",
-    "copyId": "Copiar ID del contenedor"
+    "copyId": "Copiar ID del contenedor",
+    "copyConnection": "Copiar conexión"
   },
   "toast": {
     "instanceCreated": "Instancia \"{{name}}\" creada con éxito.",
     "instanceStarted": "Contenedor iniciado correctamente.",
     "instanceStopped": "Contenedor detenido.",
     "instanceRemoved": "Instancia eliminada permanentemente.",
-    "operationFailed": "La operación falló. Revisa Docker Desktop."
+    "operationFailed": "La operación falló. Revisa Docker Desktop.",
+    "connectionCopied": "Cadena de conexión copiada al portapapeles."
   },
   "confirm": {
     "removeTitle": "Eliminar instancia",

@@ -78,14 +78,16 @@
     "remove": "Remove",
     "created": "Created",
     "copyPort": "Copy port",
-    "copyId": "Copy container ID"
+    "copyId": "Copy container ID",
+    "copyConnection": "Copy connection"
   },
   "toast": {
     "instanceCreated": "Instance \"{{name}}\" created successfully.",
     "instanceStarted": "Container started successfully.",
     "instanceStopped": "Container stopped.",
     "instanceRemoved": "Instance permanently removed.",
-    "operationFailed": "Operation failed. Check Docker Desktop."
+    "operationFailed": "Operation failed. Check Docker Desktop.",
+    "connectionCopied": "Connection string copied to clipboard."
   },
   "confirm": {
     "removeTitle": "Remove instance",
