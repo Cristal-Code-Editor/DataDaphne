@@ -212,6 +212,24 @@ export async function listInstances(): Promise<InstanceRecord[]> {
 }
 
 /**
+ * Arranca un contenedor que estaba detenido.
+ * @param containerId - ID del contenedor a iniciar.
+ * @returns Resultado de la operación con mensaje de error si falla.
+ */
+export async function startInstance(containerId: string): Promise<ContainerOperationResult> {
+  const docker = createDockerClient();
+
+  try {
+    const container = docker.getContainer(containerId);
+    await container.start({});
+    return { success: true };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Error al iniciar el contenedor.";
+    return { success: false, error: message };
+  }
+}
+
+/**
  * Detiene un contenedor en ejecución sin eliminarlo.
  * @param containerId - ID del contenedor a parar.
  * @returns Resultado de la operación con mensaje de error si falla.
