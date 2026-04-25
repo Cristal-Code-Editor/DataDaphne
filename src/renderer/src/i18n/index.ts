@@ -28,19 +28,13 @@ function getInitialLanguage(): LanguageCode {
 }
 
 /**
- * Cambia el idioma activo con transición de vista suave y persiste la preferencia.
+ * Cambia el idioma activo y persiste la preferencia para la próxima sesión.
  * @param language - Código de idioma que debe activarse.
- * @returns Promesa resuelta cuando i18next y la transición terminan.
+ * @returns Promesa resuelta cuando i18next termina el cambio.
  */
 export async function changeLanguage(language: LanguageCode): Promise<void> {
   window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
-
-  if (typeof document.startViewTransition === "function") {
-    const transition = document.startViewTransition(() => i18n.changeLanguage(language));
-    await transition.finished;
-  } else {
-    await i18n.changeLanguage(language);
-  }
+  await i18n.changeLanguage(language);
 }
 
 i18n.use(initReactI18next).init({
