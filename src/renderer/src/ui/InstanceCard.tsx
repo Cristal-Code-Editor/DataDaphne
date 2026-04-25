@@ -1,4 +1,4 @@
-import { CircleDot, CircleOff, Copy, Link2, Play, Trash2 } from "lucide-react";
+import { CircleDot, CircleOff, Copy, Link2, Play, TerminalSquare, Trash2 } from "lucide-react";
 import { motion } from "motion/react";
 import type { CSSProperties, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
@@ -20,6 +20,7 @@ interface InstanceCardProps {
   onStop: (containerId: string) => void;
   onRemove: (containerId: string) => void;
   onCopyConnection: (connectionString: string) => void;
+  onLogs: (containerId: string) => void;
 }
 
 /**
@@ -53,7 +54,7 @@ function formatRelativeTime(isoDate: string): string {
  * @param props - Instancia a representar, índice para la animación y callbacks de acción.
  * @returns Tarjeta de instancia lista para el grid de la vista de instancias.
  */
-export function InstanceCard({ instance, index, onStart, onStop, onRemove, onCopyConnection }: InstanceCardProps): ReactElement {
+export function InstanceCard({ instance, index, onStart, onStop, onRemove, onCopyConnection, onLogs }: InstanceCardProps): ReactElement {
   const { t } = useTranslation();
   const accent = ACCENT_BY_ENGINE[instance.engineId] ?? "#6b7480";
   const isRunning = instance.status === "running";
@@ -157,6 +158,16 @@ export function InstanceCard({ instance, index, onStart, onStop, onRemove, onCop
             {t("instances.start")}
           </button>
         )}
+        <button
+          className="button"
+          data-variant="ghost"
+          type="button"
+          onClick={() => onLogs(instance.containerId)}
+          title={t("logs.open")}
+        >
+          <TerminalSquare size={13} strokeWidth={2.1} />
+          {t("logs.open")}
+        </button>
         <button
           className="button"
           data-variant="danger"
