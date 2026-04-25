@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import type { ThemePreference } from "../stores/preferences-store";
 import { usePreferencesStore } from "../stores/preferences-store";
 import { TooltipIconButton } from "./TooltipIconButton";
+import { triggerWipe } from "./WipeTransition";
 
 const THEME_OPTIONS: Array<{ value: ThemePreference; labelKey: string; icon: typeof Sun }> = [
   { value: "light", labelKey: "theme.light", icon: Sun },
@@ -35,7 +36,7 @@ export function ThemeSwitcher(): ReactElement {
             active={isActive}
             className="segment-button"
             label={label}
-            onClick={() => setTheme(option.value)}
+            onClick={() => void triggerWipe(() => setTheme(option.value))}
           >
             {isActive ? (
               <motion.span
