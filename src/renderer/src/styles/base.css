@@ -821,42 +821,6 @@ a {
 }
 
 /* ============================================================
-   View Transitions (cambio de tema e idioma)
-   Efecto de cortina vertical que barre la pantalla de izquierda
-   a derecha, revelando el nuevo contenido por debajo.
-   ============================================================ */
-
-@media (prefers-reduced-motion: no-preference) {
-  ::view-transition-old(root) {
-    /* El estado anterior queda fijo mientras la cortina lo cubre */
-    animation: none;
-    z-index: 1;
-  }
-
-  ::view-transition-new(root) {
-    /* La cortina se abre de izquierda a derecha */
-    animation: 400ms cubic-bezier(0.76, 0, 0.24, 1) both vt-curtain;
-    z-index: 2;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation-duration: 0.001ms;
-  }
-}
-
-@keyframes vt-curtain {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0% 0 0);
-  }
-}
-
-/* ============================================================
    Responsive
    ============================================================ */
 
