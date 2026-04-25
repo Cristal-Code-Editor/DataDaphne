@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import type { LanguageCode } from "../i18n";
 import { changeLanguage, SUPPORTED_LANGUAGES } from "../i18n";
 import { TooltipIconButton } from "./TooltipIconButton";
+import { triggerWipe } from "./WipeTransition";
 
 const FLAG_BY_LANGUAGE: Record<LanguageCode, typeof MX> = {
   es: MX,
@@ -36,7 +37,7 @@ export function LanguageSwitcher(): ReactElement {
             active={isActive}
             className="segment-button flag-button"
             label={label}
-            onClick={() => void changeLanguage(language.code)}
+            onClick={() => void triggerWipe(() => changeLanguage(language.code))}
           >
             {isActive ? (
               <motion.span
