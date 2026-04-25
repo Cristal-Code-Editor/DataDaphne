@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "node:path";
 
 import { getDockerStatus } from "./docker/docker-service";
-import { createInstance, listInstances, removeInstance, stopInstance } from "./docker/container-service";
+import { createInstance, listInstances, removeInstance, startInstance, stopInstance } from "./docker/container-service";
 import { DATABASE_ENGINES } from "../shared/database-engines";
 import { IPC_CHANNELS } from "../shared/ipc-channels";
 import type { CreateInstancePayload } from "../shared/instance";
@@ -16,6 +16,7 @@ function registerIpcHandlers(): void {
   ipcMain.handle(IPC_CHANNELS.databaseEngines, () => DATABASE_ENGINES);
   ipcMain.handle(IPC_CHANNELS.containerCreate, (_event, payload: CreateInstancePayload) => createInstance(payload));
   ipcMain.handle(IPC_CHANNELS.containerList, listInstances);
+  ipcMain.handle(IPC_CHANNELS.containerStart, (_event, containerId: string) => startInstance(containerId));
   ipcMain.handle(IPC_CHANNELS.containerStop, (_event, containerId: string) => stopInstance(containerId));
   ipcMain.handle(IPC_CHANNELS.containerRemove, (_event, containerId: string) => removeInstance(containerId));
 }
