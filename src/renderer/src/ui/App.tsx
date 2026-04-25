@@ -9,10 +9,13 @@ import { DATABASE_ENGINES } from "../../../shared/database-engines";
 import type { DockerStatus } from "../../../shared/docker-status";
 import type { CreateInstancePayload, InstanceRecord } from "../../../shared/instance";
 import { applyTheme, usePreferencesStore } from "../stores/preferences-store";
+import { useToastStore } from "../stores/toast-store";
+import { ConfirmModal } from "./ConfirmModal";
 import { EngineCard } from "./EngineCard";
 import { InstanceCard } from "./InstanceCard";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { ToastContainer } from "./ToastContainer";
 import { WipeTransition } from "./WipeTransition";
 
 const INITIAL_DOCKER_STATUS: DockerStatus = {
@@ -56,10 +59,12 @@ function BrandGlyph(): ReactElement {
 export function App(): ReactElement {
   const { t } = useTranslation();
   const theme = usePreferencesStore((state) => state.theme);
+  const addToast = useToastStore((state) => state.addToast);
   const [dockerStatus, setDockerStatus] = useState<DockerStatus>(INITIAL_DOCKER_STATUS);
   const [engines, setEngines] = useState<DatabaseEngineDefinition[]>(DATABASE_ENGINES);
   const [instances, setInstances] = useState<InstanceRecord[]>([]);
   const [activeNav, setActiveNav] = useState<NavigationId>("instances");
+  const [pendingRemoveId, setPendingRemoveId] = useState<string | null>(null);
 
   useEffect(() => {
     applyTheme(theme);
@@ -111,6 +116,22 @@ export function App(): ReactElement {
     }
     await loadInstances();
     setActiveNav("instances");
+    addToast(t("toast.instanceCreated", { name: payload.instanceName }), "success");
+  }
+
+  /**
+   * Arranca un contenedor detenido y recarga la lista de instancias.
+   * @param containerId - ID completo del contenedor a iniciar.
+   * @returns Promesa resuelta cuando Docker confirma la operación.
+   */
+  async function handleStartInstance(containerId: string): Promise<void> {
+    const result = await window.datadaphne.startInstance(containerId);
+    if (result.success) {
+      await loadInstances();
+      addToast(t("toast.instanceStarted"), "success");
+    } else {
+      addToast(result.error ?? t("toast.operationFailed"), "error");
+    }
   }
 
   /**
@@ -119,18 +140,39 @@ export function App(): ReactElement {
    * @returns Promesa resuelta cuando Docker confirma la operación.
    */
   async function handleStopInstance(containerId: string): Promise<void> {
-    await window.datadaphne.stopInstance(containerId);
-    await loadInstances();
+    const result = await window.datadaphne.stopInstance(containerId);
+    if (result.success) {
+      await loadInstances();
+      addToast(t("toast.instanceStopped"), "info");
+    } else {
+      addToast(result.error ?? t("toast.operationFailed"), "error");
+    }
   }
 
   /**
-   * Elimina permanentemente el contenedor indicado y recarga la lista.
+   * Solicita confirmación al usuario y, si la da, elimina el contenedor.
    * @param containerId - ID completo del contenedor a eliminar.
+   * @returns No retorna valor; la confirmación es asíncrona por el modal.
+   */
+  function handleRequestRemove(containerId: string): void {
+    setPendingRemoveId(containerId);
+  }
+
+  /**
+   * Elimina permanentemente el contenedor pendiente tras la confirmación del usuario.
    * @returns Promesa resuelta cuando Docker confirma la operación.
    */
-  async function handleRemoveInstance(containerId: string): Promise<void> {
-    await window.datadaphne.removeInstance(containerId);
-    await loadInstances();
+  async function handleConfirmRemove(): Promise<void> {
+    if (!pendingRemoveId) return;
+    const id = pendingRemoveId;
+    setPendingRemoveId(null);
+    const result = await window.datadaphne.removeInstance(id);
+    if (result.success) {
+      await loadInstances();
+      addToast(t("toast.instanceRemoved"), "success");
+    } else {
+      addToast(result.error ?? t("toast.operationFailed"), "error");
+    }
   }
 
   const totalPorts = engines.reduce((sum, engine) => sum + (engine.defaultPort > 0 ? 1 : 0), 0);
@@ -313,8 +355,9 @@ export function App(): ReactElement {
                           key={instance.containerId}
                           instance={instance}
                           index={index}
+                          onStart={(id) => void handleStartInstance(id)}
                           onStop={(id) => void handleStopInstance(id)}
-                          onRemove={(id) => void handleRemoveInstance(id)}
+                          onRemove={(id) => handleRequestRemove(id)}
                         />
                       ))}
                     </AnimatePresence>
@@ -366,6 +409,14 @@ export function App(): ReactElement {
       </section>
       </div>
       <WipeTransition />
+      <ToastContainer />
+      <ConfirmModal
+        open={pendingRemoveId !== null}
+        title={t("confirm.removeTitle")}
+        message={t("confirm.removeMessage")}
+        onConfirm={() => void handleConfirmRemove()}
+        onCancel={() => setPendingRemoveId(null)}
+      />
     </>
   );
 }
