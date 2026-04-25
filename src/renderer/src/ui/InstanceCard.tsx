@@ -1,4 +1,4 @@
-import { CircleDot, CircleOff, Copy, Trash2 } from "lucide-react";
+import { CircleDot, CircleOff, Copy, Play, Trash2 } from "lucide-react";
 import { motion } from "motion/react";
 import type { CSSProperties, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ const ACCENT_BY_ENGINE: Record<string, string> = {
 interface InstanceCardProps {
   instance: InstanceRecord;
   index: number;
+  onStart: (containerId: string) => void;
   onStop: (containerId: string) => void;
   onRemove: (containerId: string) => void;
 }
@@ -51,7 +52,7 @@ function formatRelativeTime(isoDate: string): string {
  * @param props - Instancia a representar, índice para la animación y callbacks de acción.
  * @returns Tarjeta de instancia lista para el grid de la vista de instancias.
  */
-export function InstanceCard({ instance, index, onStop, onRemove }: InstanceCardProps): ReactElement {
+export function InstanceCard({ instance, index, onStart, onStop, onRemove }: InstanceCardProps): ReactElement {
   const { t } = useTranslation();
   const accent = ACCENT_BY_ENGINE[instance.engineId] ?? "#6b7480";
   const isRunning = instance.status === "running";
@@ -124,16 +125,27 @@ export function InstanceCard({ instance, index, onStop, onRemove }: InstanceCard
       </div>
 
       <footer className="instance-actions">
-        <button
-          className="button"
-          data-variant="ghost"
-          disabled={!isRunning}
-          type="button"
-          onClick={() => onStop(instance.containerId)}
-        >
-          <CircleDot size={13} strokeWidth={2.1} />
-          {t("instances.stop")}
-        </button>
+        {isRunning ? (
+          <button
+            className="button"
+            data-variant="ghost"
+            type="button"
+            onClick={() => onStop(instance.containerId)}
+          >
+            <CircleDot size={13} strokeWidth={2.1} />
+            {t("instances.stop")}
+          </button>
+        ) : (
+          <button
+            className="button"
+            data-variant="ghost"
+            type="button"
+            onClick={() => onStart(instance.containerId)}
+          >
+            <Play size={13} strokeWidth={2.1} />
+            {t("instances.start")}
+          </button>
+        )}
         <button
           className="button"
           data-variant="danger"
