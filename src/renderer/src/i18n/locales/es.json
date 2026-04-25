@@ -1,0 +1,66 @@
+{
+  "app": {
+    "name": "DataDaphne",
+    "section": "Motores locales"
+  },
+  "nav": {
+    "instances": "Instancias",
+    "engines": "Motores",
+    "backups": "Respaldos",
+    "settings": "Ajustes"
+  },
+  "actions": {
+    "newInstance": "Nueva instancia",
+    "create": "Crear",
+    "configure": "Configurar",
+    "refresh": "Actualizar"
+  },
+  "status": {
+    "dockerReady": "Docker activo",
+    "dockerOffline": "Docker inactivo",
+    "version": "Versión {{version}}",
+    "dockerAvailable": "Docker está disponible y listo para crear instancias.",
+    "dockerUnavailable": "Docker no está disponible. Inicia Docker Desktop para continuar."
+  },
+  "stats": {
+    "engines": "Motores",
+    "instances": "Instancias",
+    "ports": "Puertos",
+    "profiles": "Perfiles",
+    "enginesHint": "MVP soportado",
+    "instancesHint": "Listo para crear",
+    "portsHint": "Configurables",
+    "profilesHint": "Próximamente"
+  },
+  "section": {
+    "enginesDescription": "{{count}} motores · puerto editable"
+  },
+  "theme": {
+    "light": "Tema claro",
+    "dark": "Tema oscuro",
+    "system": "Tema del sistema"
+  },
+  "language": {
+    "label": "Idioma",
+    "spanish": "Español",
+    "english": "Inglés"
+  },
+  "engineConfig": {
+    "databaseName": "Base de datos",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "rootPassword": "Contraseña root",
+    "port": "Puerto",
+    "appendOnly": "Persistencia AOF",
+    "instanceName": "Nombre de instancia",
+    "togglePassword": "Mostrar u ocultar contraseña",
+    "on": "Activado",
+    "off": "Desactivado"
+  },
+  "engines": {
+    "postgresql": "PostgreSQL",
+    "redis": "Redis",
+    "mariadb": "MariaDB",
+    "mysql": "MySQL"
+  }
+}
