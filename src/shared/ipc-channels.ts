@@ -5,7 +5,10 @@ export const IPC_CHANNELS = {
   containerList: "container:list",
   containerStart: "container:start",
   containerStop: "container:stop",
-  containerRemove: "container:remove"
+  containerRemove: "container:remove",
+  containerLogsStart: "container:logs:start",
+  containerLogsChunk: "container:logs:chunk",
+  containerLogsStop: "container:logs:stop"
 } as const;
 
 export type IpcChannel = (typeof IPC_CHANNELS)[keyof typeof IPC_CHANNELS];
