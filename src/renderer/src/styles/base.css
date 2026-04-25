@@ -844,4 +844,265 @@ a {
   .engine-grid {
     grid-template-columns: 1fr;
   }
+  .instance-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   Variante danger para botones
+   ============================================================ */
+
+.button[data-variant="danger"] {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+}
+
+.button[data-variant="danger"]:hover {
+  background: color-mix(in srgb, #ef4444 10%, transparent);
+  border-color: color-mix(in srgb, #ef4444 30%, transparent);
+  color: #ef4444;
+}
+
+/* ============================================================
+   Animación spin para icono de carga
+   ============================================================ */
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+/* ============================================================
+   Error inline en tarjeta de motor
+   ============================================================ */
+
+.engine-create-error {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #ef4444;
+  font-size: 11.5px;
+}
+
+/* ============================================================
+   Grid y tarjeta de instancias
+   ============================================================ */
+
+.instance-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
+  gap: 12px;
+}
+
+.instance-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px 18px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+
+.instance-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-sm);
+}
+
+.instance-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.instance-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.instance-mark {
+  flex-shrink: 0;
+}
+
+.instance-info {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+}
+
+.instance-engine {
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.instance-name {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.instance-image {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 4px;
+  padding: 1px 7px;
+  border-radius: var(--radius-xs);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+
+.instance-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border-radius: 99px;
+  font-size: 11px;
+  font-weight: 550;
+  border: 1px solid transparent;
+}
+
+.instance-status-pill[data-status="running"] {
+  background: color-mix(in srgb, #22c55e 12%, transparent);
+  border-color: color-mix(in srgb, #22c55e 25%, transparent);
+  color: #16a34a;
+}
+
+:root[data-theme="dark"] .instance-status-pill[data-status="running"] {
+  color: #4ade80;
+}
+
+.instance-status-pill[data-status="stopped"] {
+  background: var(--surface-sunken);
+  border-color: var(--border);
+  color: var(--text-muted);
+}
+
+.instance-status-pill[data-status="error"] {
+  background: color-mix(in srgb, #ef4444 10%, transparent);
+  border-color: color-mix(in srgb, #ef4444 25%, transparent);
+  color: #ef4444;
+}
+
+.instance-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.instance-meta-item {
+  display: grid;
+  gap: 2px;
+}
+
+.instance-meta-label {
+  color: var(--text-muted);
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.instance-meta-value {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.instance-copy-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 6px 1px 4px;
+  border-radius: var(--radius-xs);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  transition: border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard);
+}
+
+.instance-copy-tag:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.instance-copy-tag strong {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.instance-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ============================================================
+   Estado vacío
+   ============================================================ */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.empty-icon {
+  color: var(--text-muted);
+}
+
+.empty-message {
+  margin: 0;
+  max-width: 340px;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   Vista de marcador de posición (backups / ajustes)
+   ============================================================ */
+
+.placeholder-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.placeholder-message {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  font-weight: 500;
 }
