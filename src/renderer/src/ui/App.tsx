@@ -14,6 +14,7 @@ import { ConfirmModal } from "./ConfirmModal";
 import { EngineCard } from "./EngineCard";
 import { InstanceCard } from "./InstanceCard";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { LogsDrawer } from "./LogsDrawer";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { ToastContainer } from "./ToastContainer";
 import { WipeTransition } from "./WipeTransition";
@@ -65,6 +66,7 @@ export function App(): ReactElement {
   const [instances, setInstances] = useState<InstanceRecord[]>([]);
   const [activeNav, setActiveNav] = useState<NavigationId>("instances");
   const [pendingRemoveId, setPendingRemoveId] = useState<string | null>(null);
+  const [logsContainerId, setLogsContainerId] = useState<string | null>(null);
 
   useEffect(() => {
     applyTheme(theme);
@@ -362,6 +364,7 @@ export function App(): ReactElement {
                             void navigator.clipboard.writeText(cs);
                             addToast(t("toast.connectionCopied"), "success");
                           }}
+                          onLogs={(id) => setLogsContainerId(id)}
                         />
                       ))}
                     </AnimatePresence>
@@ -420,6 +423,14 @@ export function App(): ReactElement {
         message={t("confirm.removeMessage")}
         onConfirm={() => void handleConfirmRemove()}
         onCancel={() => setPendingRemoveId(null)}
+      />
+      <LogsDrawer
+        open={logsContainerId !== null}
+        containerId={logsContainerId ?? ""}
+        instanceName={
+          instances.find((i) => i.containerId === logsContainerId)?.name ?? ""
+        }
+        onClose={() => setLogsContainerId(null)}
       />
     </>
   );
