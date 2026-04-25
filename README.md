@@ -10,48 +10,48 @@
 
 ---
 
-## ¿Qué es DataDaphne?
+## What is DataDaphne?
 
-DataDaphne es una aplicación de escritorio para Windows que permite levantar, configurar y gestionar bases de datos locales usando contenedores Docker — sin tocar archivos de configuración ni escribir comandos manualmente.
+DataDaphne is a Windows desktop application that allows you to spin up, configure, and manage local databases using Docker containers — without touching configuration files or manually typing commands.
 
-Ideal para desarrolladores que necesitan probar diferentes motores de bases de datos de forma rápida y limpia, sin ensuciar su máquina host.
+Ideal for developers who need to test different database engines quickly and cleanly, without cluttering their host machine.
 
 ---
 
-## Motores soportados
+## Supported Engines
 
-| Motor | Estado |
+| Engine | Status |
 |---|---|
-| PostgreSQL | Próximamente |
-| MySQL | Próximamente |
-| MongoDB | Próximamente |
-| Redis | Próximamente |
+| PostgreSQL | Coming soon |
+| MySQL | Coming soon |
+| MongoDB | Coming soon |
+| Redis | Coming soon |
 
 ---
 
-## Requisitos previos
+## Prerequisites
 
 - Windows 10 / 11
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y en ejecución
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running
 
-> Si no tienes Docker Desktop, DataDaphne te asistirá en el proceso de instalación.
-
----
-
-## Instalación
-
-> En desarrollo. Las instrucciones de instalación estarán disponibles en la versión `0.1.0`.
+> If you don't have Docker Desktop, DataDaphne will assist you with the installation process.
 
 ---
 
-## Contribuciones
+## Installation
 
-DataDaphne es un proyecto de código abierto. Las contribuciones son bienvenidas.
-
-Por favor, lee las guías de contribución antes de abrir un Pull Request (próximamente disponibles).
+> In development. Installation instructions will be available in version `0.1.0`.
 
 ---
 
-## Licencia
+## Contributing
 
-Distribuido bajo la licencia **MIT**. Consulta el archivo [LICENSE](./LICENSE) para más detalles.
+DataDaphne is an open-source project. Contributions are welcome.
+
+Please read the contributing guidelines before opening a Pull Request (coming soon).
+
+---
+
+## License
+
+Distributed under the **MIT** License. See the [LICENSE](./LICENSE) file for more details.
