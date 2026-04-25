@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import { join } from "node:path";
 
 import { getDockerStatus } from "./docker/docker-service";
-import { createInstance, listInstances, removeInstance, startInstance, startLogStream, stopInstance, stopLogStream } from "./docker/container-service";
+import { createInstance, listInstances, removeInstance, startInstance, startLogStream, stopInstance, stopLogStream, checkPortAvailable } from "./docker/container-service";
 import { DATABASE_ENGINES } from "../shared/database-engines";
 import { IPC_CHANNELS } from "../shared/ipc-channels";
 import type { CreateInstancePayload } from "../shared/instance";
@@ -27,6 +27,7 @@ function registerIpcHandlers(): void {
     })
   );
   ipcMain.handle(IPC_CHANNELS.containerLogsStop, (_event, containerId: string) => stopLogStream(containerId));
+  ipcMain.handle(IPC_CHANNELS.portCheck, (_event, port: number) => checkPortAvailable(port));
 }
 
 /**
