@@ -58,7 +58,8 @@
     "instanceName": "Nombre de instancia",
     "togglePassword": "Mostrar u ocultar contraseña",
     "on": "Activado",
-    "off": "Desactivado"
+    "off": "Desactivado",
+    "portInUse": "El puerto {{port}} ya está en uso. Elige otro puerto e inténtalo de nuevo."
   },
   "engines": {
     "postgresql": "PostgreSQL",
