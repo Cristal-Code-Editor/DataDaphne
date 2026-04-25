@@ -13,7 +13,8 @@
     "newInstance": "Nueva instancia",
     "create": "Crear",
     "configure": "Configurar",
-    "refresh": "Actualizar"
+    "refresh": "Actualizar",
+    "cancel": "Cancelar"
   },
   "status": {
     "dockerReady": "Docker activo",
@@ -72,10 +73,22 @@
     "creating": "Creando...",
     "running": "En ejecución",
     "stopped": "Detenida",
+    "start": "Iniciar",
     "stop": "Detener",
     "remove": "Eliminar",
     "created": "Creada",
     "copyPort": "Copiar puerto",
     "copyId": "Copiar ID del contenedor"
+  },
+  "toast": {
+    "instanceCreated": "Instancia \"{{name}}\" creada con éxito.",
+    "instanceStarted": "Contenedor iniciado correctamente.",
+    "instanceStopped": "Contenedor detenido.",
+    "instanceRemoved": "Instancia eliminada permanentemente.",
+    "operationFailed": "La operación falló. Revisa Docker Desktop."
+  },
+  "confirm": {
+    "removeTitle": "Eliminar instancia",
+    "removeMessage": "Esta acción es irreversible. El contenedor y sus datos locales serán eliminados permanentemente."
   }
 }

@@ -13,7 +13,8 @@
     "newInstance": "New instance",
     "create": "Create",
     "configure": "Configure",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "cancel": "Cancel"
   },
   "status": {
     "dockerReady": "Docker active",
@@ -72,10 +73,22 @@
     "creating": "Creating...",
     "running": "Running",
     "stopped": "Stopped",
+    "start": "Start",
     "stop": "Stop",
     "remove": "Remove",
     "created": "Created",
     "copyPort": "Copy port",
     "copyId": "Copy container ID"
+  },
+  "toast": {
+    "instanceCreated": "Instance \"{{name}}\" created successfully.",
+    "instanceStarted": "Container started successfully.",
+    "instanceStopped": "Container stopped.",
+    "instanceRemoved": "Instance permanently removed.",
+    "operationFailed": "Operation failed. Check Docker Desktop."
+  },
+  "confirm": {
+    "removeTitle": "Remove instance",
+    "removeMessage": "This action is irreversible. The container and its local data will be permanently deleted."
   }
 }
