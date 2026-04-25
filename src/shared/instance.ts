@@ -16,6 +16,8 @@ export interface InstanceRecord {
   port: number;
   status: InstanceStatus;
   createdAt: string;
+  /** Cadena de conexión lista para copiar, generada a partir de las etiquetas del contenedor. */
+  connectionString: string;
 }
 
 /**
