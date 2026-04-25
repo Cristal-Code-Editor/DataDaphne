@@ -3,6 +3,7 @@ export const IPC_CHANNELS = {
   databaseEngines: "database:engines",
   containerCreate: "container:create",
   containerList: "container:list",
+  containerStart: "container:start",
   containerStop: "container:stop",
   containerRemove: "container:remove"
 } as const;
