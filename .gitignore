@@ -1,0 +1,99 @@
+# ============================================================
+# DataDaphne — .gitignore
+# ============================================================
+
+# ------------------------------------------------------------
+# Instrucciones y configuración interna de desarrollo
+# ------------------------------------------------------------
+.github/instructions/
+.github/copilot-instructions.md
+*.instructions.md
+*.prompt.md
+
+# ------------------------------------------------------------
+# Notas, scripts y documentos de desarrollo
+# ------------------------------------------------------------
+notes/
+scripts/
+scratch/
+TODO.md
+NOTES.md
+*.todo
+*.draft
+
+# ------------------------------------------------------------
+# Dependencias
+# ------------------------------------------------------------
+node_modules/
+.pnp
+.pnp.js
+
+# ------------------------------------------------------------
+# Salidas de build y distribución
+# ------------------------------------------------------------
+dist/
+build/
+out/
+release/
+*.exe
+*.msi
+*.dmg
+*.AppImage
+
+# ------------------------------------------------------------
+# Variables de entorno
+# ------------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------
+# Logs
+# ------------------------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ------------------------------------------------------------
+# Caché y temporales
+# ------------------------------------------------------------
+.cache/
+.temp/
+.tmp/
+*.swp
+*.swo
+*~
+
+# ------------------------------------------------------------
+# Sistema operativo — Windows
+# ------------------------------------------------------------
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Sistema operativo — macOS (por si acaso)
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ------------------------------------------------------------
+# IDEs y editores
+# ------------------------------------------------------------
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ------------------------------------------------------------
+# Electron
+# ------------------------------------------------------------
+.webpack/
+renderer/.webpack/
