@@ -135,8 +135,8 @@ export function EngineCard({ engine, disabled, index }: EngineCardProps): ReactE
                   value={String(values[option.key])}
                   onChange={(event) => updateValue(option.key, event.target.value === "true")}
                 >
-                  <option value="true">On</option>
-                  <option value="false">Off</option>
+                  <option value="true">{t("engineConfig.on")}</option>
+                  <option value="false">{t("engineConfig.off")}</option>
                 </select>
               ) : (
                 <div style={{ position: "relative" }}>
@@ -153,7 +153,7 @@ export function EngineCard({ engine, disabled, index }: EngineCardProps): ReactE
                     <button
                       type="button"
                       onClick={() => toggleSecret(option.key)}
-                      aria-label={t("engineConfig.password")}
+                      aria-label={t("engineConfig.togglePassword")}
                       style={{
                         position: "absolute",
                         top: 0,
