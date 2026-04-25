@@ -1,4 +1,5 @@
 import Docker from "dockerode";
+import { createServer } from "node:net";
 import { PassThrough } from "node:stream";
 
 import { DATABASE_ENGINES } from "../../shared/database-engines";
@@ -380,4 +381,19 @@ export function stopLogStream(containerId: string): ContainerOperationResult {
     activeLogStreams.delete(containerId);
   }
   return { success: true };
+}
+
+/**
+ * Comprueba si un puerto TCP en localhost está disponible para su uso.
+ * Intenta abrir un servidor temporalmente; si falla, el puerto está ocupado.
+ * @param port - Número de puerto a verificar (1-65535).
+ * @returns `true` si el puerto está libre, `false` si ya está en uso.
+ */
+export function checkPortAvailable(port: number): Promise<boolean> {
+  return new Promise((resolve) => {
+    const server = createServer();
+    server.once("error", () => resolve(false));
+    server.once("listening", () => server.close(() => resolve(true)));
+    server.listen(port, "127.0.0.1");
+  });
 }
