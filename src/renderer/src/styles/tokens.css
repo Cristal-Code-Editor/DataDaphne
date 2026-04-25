@@ -1,0 +1,123 @@
+:root {
+  color-scheme: light;
+
+  --font-sans: "Inter Variable", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Inter Variable", Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, monospace;
+
+  /* ===== Neutros (escala fría tipo Docker / Linear) ===== */
+  --neutral-0: #ffffff;
+  --neutral-25: #fbfcfd;
+  --neutral-50: #f6f8fa;
+  --neutral-100: #eef1f4;
+  --neutral-150: #e4e8ec;
+  --neutral-200: #d8dde2;
+  --neutral-300: #c2c8d0;
+  --neutral-400: #98a0ab;
+  --neutral-500: #6b7480;
+  --neutral-600: #4a5562;
+  --neutral-700: #2f3742;
+  --neutral-800: #1d232c;
+  --neutral-900: #0f1419;
+
+  /* ===== Superficies ===== */
+  --canvas: var(--neutral-50);
+  --surface: var(--neutral-0);
+  --surface-raised: var(--neutral-0);
+  --surface-sunken: var(--neutral-100);
+  --surface-hover: var(--neutral-50);
+  --surface-input: var(--neutral-0);
+
+  /* ===== Texto ===== */
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-700);
+  --text-muted: var(--neutral-500);
+  --text-subtle: var(--neutral-400);
+  --text-on-accent: #ffffff;
+
+  /* ===== Bordes (hairlines) ===== */
+  --border: var(--neutral-150);
+  --border-strong: var(--neutral-200);
+  --border-subtle: var(--neutral-100);
+
+  /* ===== Acento único: Docker Blue ===== */
+  --accent: #1d63ed;
+  --accent-hover: #1a56d0;
+  --accent-active: #1648b3;
+  --accent-soft: #e7efff;
+  --accent-softer: #f3f7ff;
+  --accent-ring: rgba(29, 99, 237, 0.18);
+  --accent-text: #1648b3;
+
+  /* ===== Estados ===== */
+  --success: #16794a;
+  --success-soft: #e6f4ec;
+  --warning: #9a6700;
+  --warning-soft: #fff4d6;
+  --danger: #b42318;
+  --danger-soft: #fde8e6;
+
+  /* ===== Sombras (sutiles, sin desbordes) ===== */
+  --shadow-xs: 0 1px 1px rgba(15, 20, 25, 0.04);
+  --shadow-sm: 0 1px 2px rgba(15, 20, 25, 0.06), 0 1px 1px rgba(15, 20, 25, 0.04);
+  --shadow-md: 0 2px 4px rgba(15, 20, 25, 0.05), 0 4px 12px rgba(15, 20, 25, 0.06);
+  --shadow-lg: 0 8px 24px rgba(15, 20, 25, 0.08), 0 2px 6px rgba(15, 20, 25, 0.04);
+  --shadow-focus: 0 0 0 3px var(--accent-ring);
+
+  /* ===== Radios ===== */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-pill: 999px;
+
+  /* ===== Tiempos & easing ===== */
+  --duration-instant: 80ms;
+  --duration-fast: 140ms;
+  --duration-normal: 200ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0.9, 0.1, 1);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --canvas: #0d1117;
+  --surface: #161b22;
+  --surface-raised: #1c232c;
+  --surface-sunken: #0d1117;
+  --surface-hover: #1f262f;
+  --surface-input: #0d1117;
+
+  --text-primary: #e6edf3;
+  --text-secondary: #b1bac4;
+  --text-muted: #8b949e;
+  --text-subtle: #6e7681;
+  --text-on-accent: #ffffff;
+
+  --border: #2a313a;
+  --border-strong: #3a424d;
+  --border-subtle: #21272f;
+
+  --accent: #4f8cf7;
+  --accent-hover: #6c9efb;
+  --accent-active: #3d77df;
+  --accent-soft: rgba(79, 140, 247, 0.14);
+  --accent-softer: rgba(79, 140, 247, 0.07);
+  --accent-ring: rgba(79, 140, 247, 0.32);
+  --accent-text: #87b1fb;
+
+  --success: #3fb950;
+  --success-soft: rgba(63, 185, 80, 0.14);
+  --warning: #d29922;
+  --warning-soft: rgba(210, 153, 34, 0.14);
+  --danger: #f85149;
+  --danger-soft: rgba(248, 81, 73, 0.14);
+
+  --shadow-xs: 0 1px 1px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5), 0 1px 1px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 2px 4px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.3);
+}
