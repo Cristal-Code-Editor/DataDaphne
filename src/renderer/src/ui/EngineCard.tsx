@@ -1,10 +1,11 @@
-import { Eye, EyeOff, Sliders, Sparkles } from "lucide-react";
+import { Eye, EyeOff, Loader2, Sliders, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import type { CSSProperties, ReactElement } from "react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import type { DatabaseConfigOption, DatabaseEngineDefinition } from "../../../shared/database-engines";
+import type { CreateInstancePayload } from "../../../shared/instance";
 import { EngineGlyph } from "./EngineGlyph";
 
 type ConfigValue = string | number | boolean;
@@ -14,6 +15,7 @@ interface EngineCardProps {
   engine: DatabaseEngineDefinition;
   disabled: boolean;
   index: number;
+  onCreateInstance: (payload: CreateInstancePayload) => Promise<void>;
 }
 
 /**
@@ -67,10 +69,12 @@ function resolvePort(values: ConfigValues, engine: DatabaseEngineDefinition): nu
  * @param props - Motor a representar, índice para animación y disponibilidad de Docker.
  * @returns Tarjeta interactiva lista para integrarse en el grid principal.
  */
-export function EngineCard({ engine, disabled, index }: EngineCardProps): ReactElement {
+export function EngineCard({ engine, disabled, index, onCreateInstance }: EngineCardProps): ReactElement {
   const { t } = useTranslation();
   const [values, setValues] = useState<ConfigValues>(() => createInitialValues(engine));
   const [revealedSecrets, setRevealedSecrets] = useState<Record<string, boolean>>({});
+  const [creating, setCreating] = useState(false);
+  const [lastError, setLastError] = useState<string | null>(null);
 
   /**
    * Actualiza un valor del formulario manteniendo el resto intacto.
@@ -89,6 +93,27 @@ export function EngineCard({ engine, disabled, index }: EngineCardProps): ReactE
    */
   function toggleSecret(key: string): void {
     setRevealedSecrets((current) => ({ ...current, [key]: !current[key] }));
+  }
+
+  /**
+   * Recoge los valores del formulario y delega la creación al componente padre.
+   * Muestra el botón en estado de carga durante la operación.
+   * @returns Promesa resuelta cuando el padre confirma el resultado.
+   */
+  async function handleCreate(): Promise<void> {
+    setCreating(true);
+    setLastError(null);
+    try {
+      await onCreateInstance({
+        engineId: engine.id,
+        instanceName: String(values.instanceName),
+        values: { ...values }
+      });
+    } catch (error) {
+      setLastError(error instanceof Error ? error.message : t("instances.createError"));
+    } finally {
+      setCreating(false);
+    }
   }
 
   return (
@@ -181,14 +206,29 @@ export function EngineCard({ engine, disabled, index }: EngineCardProps): ReactE
         <span className="engine-port-tag">
           {t("engineConfig.port")} <strong>{resolvePort(values, engine)}</strong>
         </span>
+        {lastError && (
+          <span className="engine-create-error" title={lastError}>
+            {lastError}
+          </span>
+        )}
         <div className="engine-action-cluster">
           <button className="button" data-variant="ghost" type="button">
             <Sliders size={14} strokeWidth={2.1} />
             {t("actions.configure")}
           </button>
-          <button className="button" data-variant="primary" disabled={disabled} type="button">
-            <Sparkles size={14} strokeWidth={2.1} />
-            {t("actions.create")}
+          <button
+            className="button"
+            data-variant="primary"
+            disabled={disabled || creating}
+            type="button"
+            onClick={() => { void handleCreate(); }}
+          >
+            {creating ? (
+              <Loader2 size={14} strokeWidth={2.1} className="spin" />
+            ) : (
+              <Sparkles size={14} strokeWidth={2.1} />
+            )}
+            {creating ? t("instances.creating") : t("actions.create")}
           </button>
         </div>
       </footer>
