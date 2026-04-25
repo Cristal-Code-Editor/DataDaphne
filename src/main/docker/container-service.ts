@@ -1,4 +1,5 @@
 import Docker from "dockerode";
+import { PassThrough } from "node:stream";
 
 import { DATABASE_ENGINES } from "../../shared/database-engines";
 import type { DatabaseEngineId } from "../../shared/database-engines";
@@ -313,4 +314,70 @@ export async function removeInstance(containerId: string): Promise<ContainerOper
     const message = error instanceof Error ? error.message : "Error al eliminar el contenedor.";
     return { success: false, error: message };
   }
+}
+
+/** Streams activos indexados por containerId para poder cancelarlos. */
+const activeLogStreams = new Map<string, { destroy: () => void }>();
+
+/**
+ * Inicia la transmisión de logs de un contenedor.
+ * Invoca onChunk con cada línea recibida hasta que se detenga el stream.
+ * @param containerId - ID del contenedor cuyos logs se transmiten.
+ * @param onChunk - Función receptora de cada fragmento de texto.
+ * @returns Resultado inmediato de si el stream arrancó con éxito.
+ */
+export async function startLogStream(
+  containerId: string,
+  onChunk: (line: string) => void
+): Promise<ContainerOperationResult> {
+  // Si ya hay un stream activo para este contenedor, lo cerramos primero
+  stopLogStream(containerId);
+
+  const docker = createDockerClient();
+
+  try {
+    const container = docker.getContainer(containerId);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const stream: NodeJS.ReadableStream = await (container.logs as any)({
+      follow: true,
+      stdout: true,
+      stderr: true,
+      tail: 200
+    });
+
+    const stdout = new PassThrough();
+    const stderr = new PassThrough();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (docker as any).modem.demuxStream(stream, stdout, stderr);
+
+    stdout.on("data", (chunk: Buffer) => onChunk(chunk.toString("utf8")));
+    stderr.on("data", (chunk: Buffer) => onChunk(chunk.toString("utf8")));
+
+    activeLogStreams.set(containerId, {
+      destroy: () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (stream as any).destroy?.();
+      }
+    });
+
+    return { success: true };
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Error al obtener logs del contenedor.";
+    return { success: false, error: message };
+  }
+}
+
+/**
+ * Detiene el stream de logs activo para el contenedor indicado.
+ * @param containerId - ID del contenedor cuyo stream se cancela.
+ * @returns Resultado de la operación.
+ */
+export function stopLogStream(containerId: string): ContainerOperationResult {
+  const entry = activeLogStreams.get(containerId);
+  if (entry) {
+    entry.destroy();
+    activeLogStreams.delete(containerId);
+  }
+  return { success: true };
 }
