@@ -105,6 +105,35 @@ function sanitizeName(name: string): string {
 }
 
 /**
+ * Construye la cadena de conexión estándar para cada motor.
+ * @param engineId - Motor de base de datos.
+ * @param port - Puerto del host al que está mapeado el contenedor.
+ * @param labels - Etiquetas Docker del contenedor con credenciales.
+ * @returns Cadena de conexión lista para usar con cualquier cliente compatible.
+ */
+function buildConnectionString(
+  engineId: DatabaseEngineId,
+  port: number,
+  labels: Record<string, string>
+): string {
+  const host = "localhost";
+  const user = labels["datadaphne.username"] ?? "";
+  const pass = labels["datadaphne.password"] ?? "";
+  const db = labels["datadaphne.database"] ?? "";
+
+  switch (engineId) {
+    case "postgresql":
+      return `postgresql://${user}:${pass}@${host}:${port}/${db}`;
+    case "redis":
+      return `redis://${host}:${port}`;
+    case "mariadb":
+      return `mysql://root:${pass}@${host}:${port}/${db}`;
+    case "mysql":
+      return `mysql://root:${pass}@${host}:${port}/${db}`;
+  }
+}
+
+/**
  * Convierte el estado de un contenedor Docker al tipo normalizado de DataDaphne.
  * @param state - Estado reportado por el daemon de Docker.
  * @returns Estado simplificado para la interfaz de usuario.
@@ -149,7 +178,10 @@ export async function createInstance(payload: CreateInstancePayload): Promise<Cr
         [DATADAPHNE_LABEL]: "true",
         "datadaphne.engine": payload.engineId,
         "datadaphne.engine.label": engine.label,
-        "datadaphne.port": String(hostPort)
+        "datadaphne.port": String(hostPort),
+        "datadaphne.username": String(payload.values.username ?? payload.values.rootPassword ?? ""),
+        "datadaphne.password": String(payload.values.password ?? payload.values.rootPassword ?? ""),
+        "datadaphne.database": String(payload.values.database ?? "")
       },
       HostConfig: {
         PortBindings: {
@@ -172,7 +204,12 @@ export async function createInstance(payload: CreateInstancePayload): Promise<Cr
         image: engine.dockerImage,
         port: hostPort,
         status: "running",
-        createdAt: inspect.Created
+        createdAt: inspect.Created,
+        connectionString: buildConnectionString(payload.engineId, hostPort, {
+          "datadaphne.username": String(payload.values.username ?? payload.values.rootPassword ?? ""),
+          "datadaphne.password": String(payload.values.password ?? payload.values.rootPassword ?? ""),
+          "datadaphne.database": String(payload.values.database ?? "")
+        })
       }
     };
   } catch (error) {
@@ -204,7 +241,12 @@ export async function listInstances(): Promise<InstanceRecord[]> {
       image: c.Image,
       port: parseInt(c.Labels["datadaphne.port"] ?? "0", 10),
       status: normalizeStatus(c.State),
-      createdAt: new Date(c.Created * 1000).toISOString()
+      createdAt: new Date(c.Created * 1000).toISOString(),
+      connectionString: buildConnectionString(
+        (c.Labels["datadaphne.engine"] ?? "unknown") as DatabaseEngineId,
+        parseInt(c.Labels["datadaphne.port"] ?? "0", 10),
+        c.Labels
+      )
     }));
   } catch {
     return [];
