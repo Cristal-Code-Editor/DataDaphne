@@ -1,4 +1,4 @@
-import { CircleDot, CircleOff, Copy, Play, Trash2 } from "lucide-react";
+import { CircleDot, CircleOff, Copy, Link2, Play, Trash2 } from "lucide-react";
 import { motion } from "motion/react";
 import type { CSSProperties, ReactElement } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +19,7 @@ interface InstanceCardProps {
   onStart: (containerId: string) => void;
   onStop: (containerId: string) => void;
   onRemove: (containerId: string) => void;
+  onCopyConnection: (connectionString: string) => void;
 }
 
 /**
@@ -52,7 +53,7 @@ function formatRelativeTime(isoDate: string): string {
  * @param props - Instancia a representar, índice para la animación y callbacks de acción.
  * @returns Tarjeta de instancia lista para el grid de la vista de instancias.
  */
-export function InstanceCard({ instance, index, onStart, onStop, onRemove }: InstanceCardProps): ReactElement {
+export function InstanceCard({ instance, index, onStart, onStop, onRemove, onCopyConnection }: InstanceCardProps): ReactElement {
   const { t } = useTranslation();
   const accent = ACCENT_BY_ENGINE[instance.engineId] ?? "#6b7480";
   const isRunning = instance.status === "running";
@@ -125,6 +126,16 @@ export function InstanceCard({ instance, index, onStart, onStop, onRemove }: Ins
       </div>
 
       <footer className="instance-actions">
+        <button
+          className="button"
+          data-variant="ghost"
+          type="button"
+          onClick={() => onCopyConnection(instance.connectionString)}
+          title={t("instances.copyConnection")}
+        >
+          <Link2 size={13} strokeWidth={2.1} />
+          {t("instances.copyConnection")}
+        </button>
         {isRunning ? (
           <button
             className="button"
