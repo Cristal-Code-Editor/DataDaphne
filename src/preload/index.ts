@@ -1,4 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
+import type { IpcRendererEvent } from "electron";
 
 import type { DatabaseEngineDefinition } from "../shared/database-engines";
 import type { DockerStatus } from "../shared/docker-status";
@@ -13,6 +14,9 @@ export interface DataDaphneApi {
   startInstance: (containerId: string) => Promise<ContainerOperationResult>;
   stopInstance: (containerId: string) => Promise<ContainerOperationResult>;
   removeInstance: (containerId: string) => Promise<ContainerOperationResult>;
+  startLogs: (containerId: string) => Promise<ContainerOperationResult>;
+  stopLogs: (containerId: string) => Promise<ContainerOperationResult>;
+  onLogsChunk: (callback: (data: { containerId: string; line: string }) => void) => () => void;
 }
 
 const api: DataDaphneApi = {
@@ -60,7 +64,33 @@ const api: DataDaphneApi = {
    * @param containerId - ID completo del contenedor a eliminar.
    * @returns Resultado de la operación.
    */
-  removeInstance: (containerId) => ipcRenderer.invoke(IPC_CHANNELS.containerRemove, containerId)
+  removeInstance: (containerId) => ipcRenderer.invoke(IPC_CHANNELS.containerRemove, containerId),
+
+  /**
+   * Arranca la transmisión de logs de un contenedor hacia el renderer.
+   * @param containerId - ID completo del contenedor.
+   * @returns Resultado de la operación.
+   */
+  startLogs: (containerId) => ipcRenderer.invoke(IPC_CHANNELS.containerLogsStart, containerId),
+
+  /**
+   * Detiene la transmisión de logs activa para el contenedor indicado.
+   * @param containerId - ID completo del contenedor.
+   * @returns Resultado de la operación.
+   */
+  stopLogs: (containerId) => ipcRenderer.invoke(IPC_CHANNELS.containerLogsStop, containerId),
+
+  /**
+   * Suscribe un callback a los fragmentos de log enviados por el proceso principal.
+   * @param callback - Función que recibe cada línea con su containerId.
+   * @returns Función de limpieza que elimina el listener.
+   */
+  onLogsChunk: (callback) => {
+    const handler = (_: IpcRendererEvent, data: { containerId: string; line: string }) =>
+      callback(data);
+    ipcRenderer.on(IPC_CHANNELS.containerLogsChunk, handler);
+    return () => ipcRenderer.removeListener(IPC_CHANNELS.containerLogsChunk, handler);
+  }
 };
 
 contextBridge.exposeInMainWorld("datadaphne", api);
