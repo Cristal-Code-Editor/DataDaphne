@@ -358,6 +358,10 @@ export function App(): ReactElement {
                           onStart={(id) => void handleStartInstance(id)}
                           onStop={(id) => void handleStopInstance(id)}
                           onRemove={(id) => handleRequestRemove(id)}
+                          onCopyConnection={(cs) => {
+                            void navigator.clipboard.writeText(cs);
+                            addToast(t("toast.connectionCopied"), "success");
+                          }}
                         />
                       ))}
                     </AnimatePresence>
