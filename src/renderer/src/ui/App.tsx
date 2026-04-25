@@ -167,8 +167,8 @@ export function App(): ReactElement {
                 </span>
                 <h1 className="status-headline">
                   {dockerStatus.available
-                    ? "Docker está disponible y listo para crear instancias."
-                    : "Docker no está disponible. Inicia Docker Desktop para continuar."}
+                    ? t("status.dockerAvailable")
+                    : t("status.dockerUnavailable")}
                 </h1>
                 <p className="status-message">
                   {dockerStatus.version
@@ -199,19 +199,19 @@ export function App(): ReactElement {
 
             <div className="metric-strip">
               <div className="metric-row">
-                <MetricCard label={t("stats.engines")} value={engines.length} hint="MVP soportado" />
-                <MetricCard label={t("stats.instances")} value={0} hint="Listo para crear" />
+                <MetricCard label={t("stats.engines")} value={engines.length} hint={t("stats.enginesHint")} />
+                <MetricCard label={t("stats.instances")} value={0} hint={t("stats.instancesHint")} />
               </div>
               <div className="metric-row">
-                <MetricCard label={t("stats.ports")} value={totalPorts} hint="Configurables" />
-                <MetricCard label={t("stats.profiles")} value={0} hint="Próximamente" />
+                <MetricCard label={t("stats.ports")} value={totalPorts} hint={t("stats.portsHint")} />
+                <MetricCard label={t("stats.profiles")} value={0} hint={t("stats.profilesHint")} />
               </div>
             </div>
           </section>
 
           <header className="section-heading">
             <h3 className="section-title">{t("nav.engines")}</h3>
-            <span className="section-meta">{engines.length} motores · puerto editable</span>
+            <span className="section-meta">{t("section.enginesDescription", { count: engines.length })}</span>
           </header>
 
           <section className="engine-grid" aria-label={t("nav.engines")}>
