@@ -104,6 +104,13 @@ export function EngineCard({ engine, disabled, index, onCreateInstance }: Engine
     setCreating(true);
     setLastError(null);
     try {
+      const port = resolvePort(values, engine);
+      const available = await window.datadaphne.checkPort(port);
+      if (!available) {
+        setLastError(t("engineConfig.portInUse", { port }));
+        setCreating(false);
+        return;
+      }
       await onCreateInstance({
         engineId: engine.id,
         instanceName: String(values.instanceName),
