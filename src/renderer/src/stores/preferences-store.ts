@@ -45,27 +45,11 @@ export function applyTheme(theme: ThemePreference): void {
   document.documentElement.dataset.theme = resolveTheme(theme);
 }
 
-/**
- * Aplica el tema con una transición de vista suave si el navegador la soporta.
- * @param theme - Preferencia visual que debe activarse.
- * @returns Promesa resuelta cuando la transición termina.
- */
-async function applyThemeWithTransition(theme: ThemePreference): Promise<void> {
-  if (typeof document.startViewTransition === "function") {
-    const transition = document.startViewTransition(() => {
-      applyTheme(theme);
-    });
-    await transition.finished;
-  } else {
-    applyTheme(theme);
-  }
-}
-
 export const usePreferencesStore = create<PreferencesState>((set) => ({
   theme: getInitialTheme(),
   setTheme: (theme) => {
     window.localStorage.setItem(THEME_STORAGE_KEY, theme);
-    void applyThemeWithTransition(theme);
+    applyTheme(theme);
     set({ theme });
   }
 }));
