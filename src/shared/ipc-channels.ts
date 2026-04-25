@@ -8,7 +8,8 @@ export const IPC_CHANNELS = {
   containerRemove: "container:remove",
   containerLogsStart: "container:logs:start",
   containerLogsChunk: "container:logs:chunk",
-  containerLogsStop: "container:logs:stop"
+  containerLogsStop: "container:logs:stop",
+  portCheck: "port:check"
 } as const;
 
 export type IpcChannel = (typeof IPC_CHANNELS)[keyof typeof IPC_CHANNELS];
