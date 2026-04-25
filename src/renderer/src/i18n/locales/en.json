@@ -1,0 +1,66 @@
+{
+  "app": {
+    "name": "DataDaphne",
+    "section": "Local engines"
+  },
+  "nav": {
+    "instances": "Instances",
+    "engines": "Engines",
+    "backups": "Backups",
+    "settings": "Settings"
+  },
+  "actions": {
+    "newInstance": "New instance",
+    "create": "Create",
+    "configure": "Configure",
+    "refresh": "Refresh"
+  },
+  "status": {
+    "dockerReady": "Docker active",
+    "dockerOffline": "Docker inactive",
+    "version": "Version {{version}}",
+    "dockerAvailable": "Docker is available and ready to create instances.",
+    "dockerUnavailable": "Docker is not available. Start Docker Desktop to continue."
+  },
+  "stats": {
+    "engines": "Engines",
+    "instances": "Instances",
+    "ports": "Ports",
+    "profiles": "Profiles",
+    "enginesHint": "MVP supported",
+    "instancesHint": "Ready to create",
+    "portsHint": "Configurable",
+    "profilesHint": "Coming soon"
+  },
+  "section": {
+    "enginesDescription": "{{count}} engines · configurable port"
+  },
+  "theme": {
+    "light": "Light theme",
+    "dark": "Dark theme",
+    "system": "System theme"
+  },
+  "language": {
+    "label": "Language",
+    "spanish": "Spanish",
+    "english": "English"
+  },
+  "engineConfig": {
+    "databaseName": "Database",
+    "username": "User",
+    "password": "Password",
+    "rootPassword": "Root password",
+    "port": "Port",
+    "appendOnly": "AOF persistence",
+    "instanceName": "Instance name",
+    "togglePassword": "Show or hide password",
+    "on": "On",
+    "off": "Off"
+  },
+  "engines": {
+    "postgresql": "PostgreSQL",
+    "redis": "Redis",
+    "mariadb": "MariaDB",
+    "mysql": "MySQL"
+  }
+}
