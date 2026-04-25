@@ -16,12 +16,18 @@ function createDockerClient(): Docker {
 
 /**
  * Consulta el estado de Docker sin bloquear el arranque visual de la aplicación.
+ * Incluye un timeout de 3 s para no dejar la UI colgada si el daemon no responde.
  * @returns Estado normalizado para que la UI pueda decidir si habilita acciones.
  */
 export async function getDockerStatus(): Promise<DockerStatus> {
   try {
     const docker = createDockerClient();
-    const version = await docker.version();
+    const version = await Promise.race([
+      docker.version(),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("timeout")), 3000)
+      )
+    ]);
 
     return {
       available: true,

@@ -76,6 +76,20 @@ export function App(): ReactElement {
     void refreshDockerStatus();
     void loadDatabaseEngines();
     void loadInstances();
+
+    // Reintenta cada 4 s hasta que Docker esté disponible, luego para solo
+    const interval = setInterval(() => {
+      void (async () => {
+        const status = await window.datadaphne.getDockerStatus();
+        setDockerStatus(status);
+        if (status.available) {
+          clearInterval(interval);
+          void loadInstances();
+        }
+      })();
+    }, 4000);
+
+    return () => clearInterval(interval);
   }, []);
 
   /**

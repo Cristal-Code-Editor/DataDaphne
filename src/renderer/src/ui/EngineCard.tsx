@@ -104,12 +104,18 @@ export function EngineCard({ engine, disabled, index, onCreateInstance }: Engine
     setCreating(true);
     setLastError(null);
     try {
-      const port = resolvePort(values, engine);
-      const available = await window.datadaphne.checkPort(port);
-      if (!available) {
-        setLastError(t("engineConfig.portInUse", { port }));
-        setCreating(false);
-        return;
+      // Comprobación de puerto: si falla o el canal no está disponible,
+      // simplemente continuamos y dejamos que Docker devuelva el error real.
+      try {
+        const port = resolvePort(values, engine);
+        const available = await window.datadaphne.checkPort(port);
+        if (!available) {
+          setLastError(t("engineConfig.portInUse", { port }));
+          setCreating(false);
+          return;
+        }
+      } catch {
+        // checkPort no disponible en este build — continuamos igualmente
       }
       await onCreateInstance({
         engineId: engine.id,
