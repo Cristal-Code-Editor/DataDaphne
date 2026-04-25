@@ -10,6 +10,7 @@ export interface DataDaphneApi {
   getDatabaseEngines: () => Promise<DatabaseEngineDefinition[]>;
   createInstance: (payload: CreateInstancePayload) => Promise<CreateInstanceResult>;
   listInstances: () => Promise<InstanceRecord[]>;
+  startInstance: (containerId: string) => Promise<ContainerOperationResult>;
   stopInstance: (containerId: string) => Promise<ContainerOperationResult>;
   removeInstance: (containerId: string) => Promise<ContainerOperationResult>;
 }
@@ -39,6 +40,13 @@ const api: DataDaphneApi = {
    * @returns Instancias activas y detenidas con su estado normalizado.
    */
   listInstances: () => ipcRenderer.invoke(IPC_CHANNELS.containerList),
+
+  /**
+   * Arranca un contenedor que estaba detenido.
+   * @param containerId - ID completo del contenedor a iniciar.
+   * @returns Resultado de la operación.
+   */
+  startInstance: (containerId) => ipcRenderer.invoke(IPC_CHANNELS.containerStart, containerId),
 
   /**
    * Detiene un contenedor sin eliminarlo.
